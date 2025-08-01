@@ -1,0 +1,14 @@
+{
+  "extends": ["./tsconfig.json", "@vue/tsconfig/tsconfig.dom.json"], // 先继承根配置，再继承 Vue 基础配置
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+}

@@ -1,0 +1,16 @@
+@use './reset.scss';
+
+// 3. 滚动条样式（在所有导入之后）
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $base-menu-background; // 使用 variable.scss 中的变量
+}
+
+::-webkit-scrollbar-thumb {
+  width: 10px;
+  background-color: yellowgreen;
+  border-radius: 10px;
+}

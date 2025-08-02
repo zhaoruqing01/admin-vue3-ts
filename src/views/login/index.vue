@@ -38,7 +38,7 @@ const getUserInfoData = async () => {
     isLoading.value = true;
     // validate校验表单
     const isValid = await loginFormRef.value.validate();
-    if (isValid) return;
+    if (!isValid) return;
     const res = await getUserInfo(loginForm.value);
     if (res.code === 200) {
       userStore.setToken(res.data.token);

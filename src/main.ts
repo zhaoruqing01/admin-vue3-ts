@@ -6,6 +6,7 @@ import pinia from './stores';
 //引入模板的全局的样式
 import router from '@/router/index.ts';
 import '@/styles/index.scss';
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import { createApp } from 'vue';
 import App from './App.vue';
 import gloablComponent from './components/index.ts';
@@ -18,4 +19,7 @@ app.use(ElementPlus, {
 });
 app.use(gloablComponent);
 app.use(router);
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component);
+}
 app.mount('#app');

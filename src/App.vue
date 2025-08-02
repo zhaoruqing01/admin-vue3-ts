@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <!-- 配送路由出口 -->
+  <!-- 一级路由出口,登录,layout等 -->
   <router-view></router-view>
 </template>
 

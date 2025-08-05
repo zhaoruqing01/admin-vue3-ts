@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 <template>
   <div class="login_container">
-    <img src="../../../../public/logo.png" mode="scaleToFill" />
+    <img src="../../../../public/vite.svg" mode="scaleToFill" />
     <div class="text">硅谷甄选运营平台</div>
   </div>
 </template>

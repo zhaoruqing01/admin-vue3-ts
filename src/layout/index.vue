@@ -42,7 +42,6 @@ let $route = useRoute();
 .layout_container {
   width: 100%;
   height: 100vh;
-  background-color: pink;
   .left_layout {
     width: $base-menu-width;
     height: 100vh;
@@ -73,10 +72,10 @@ let $route = useRoute();
       top: $base-tabbar-height;
       left: $base-menu-width;
       padding: 15px;
-      width: 100%;
+      width: calc(100% - $base-menu-width);
       height: 100%;
-      background-color: rgb(241, 204, 204);
       transition: all 0.5s;
+      box-sizing: border-box;
       &.fold {
         width: calc(100% - $base-menu-min-width);
         left: $base-menu-min-width;

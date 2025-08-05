@@ -19,7 +19,6 @@ import Setting from './components/Setting/Setting.vue';
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: #fff;
   border-bottom: 1px solid black;
   padding: 0 10px;
   .tabbar-left {

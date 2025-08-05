@@ -33,13 +33,13 @@ watch(
 // 离开阶段：[name]-leave-from（起始状态）、[name]-leave-active（过渡中）、[name]-leave-to（结束状态）
 .fade-enter-from {
   opacity: 0;
-  transform: rotate(0deg);
+  transform: translateY(-20px);
 }
 .fade-enter-active {
-  transition: all 12s;
+  transition: all 0.5s;
 }
 .fade-enter-to {
   opacity: 1;
-  transform: rotate(360deg);
+  transform: translateY(0px);
 }
 </style>

@@ -3,13 +3,13 @@ import axios from 'axios';
 import { ElMessage } from 'element-plus';
 //创建axios实例
 let request = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://big-event-vue-api-t.itheima.net',
   timeout: 5000,
 });
 //请求拦截器
 request.interceptors.request.use(config => {
   if (useUserStore().token) {
-    config.headers.token = useUserStore().token;
+    config.headers.Authorization = useUserStore().token;
   }
   return config;
 });
@@ -22,6 +22,8 @@ request.interceptors.response.use(
     //处理网络错误
     let msg = '';
     let status = error.response.status;
+    console.log(error);
+
     switch (status) {
       case 401:
         msg = 'token过期';

@@ -7,23 +7,15 @@ export interface UserData{
 // 登录返回值的类型
 export interface UserResponse{
   code:number,
-  data:{
-    token:string,
-    message?:string
-  }
+  message:string
+  token:string
 }
 
 // 用户信息的返回值
 export interface UserDetailInfo{
-      checkUser:{
-        avatar:string,
-        buttons:string[],
-        desc:string
-        password:string
-        roles:string[]
-        routes:string[]
-        token:string
-        userId:number
-        username:string
-      }
+    id:number
+    username:string
+    nickname:string
+    email:string
+    user_pic:number
 }

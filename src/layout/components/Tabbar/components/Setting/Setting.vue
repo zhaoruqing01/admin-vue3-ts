@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import router from '@/router/index';
+// import router from '@/router/index';
 import { useLayOutStore } from '@/stores/modules/setting';
 import useUserStore from '@/stores/modules/user';
 import { FullScreen, Refresh, Setting } from '@element-plus/icons-vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
 // 控制刷新状态
 const changeRefsh = () => {
   useLayOutStore().setIsRefsh(!useLayOutStore().isRefsh);
@@ -26,12 +29,16 @@ const changeFullScreen = () => {
     exitFullscreen.call(document);
   }
 };
+// 退出登录
+const $route = useRoute();
+const $router = useRouter();
 const goLogOut = () => {
   ElMessageBox.confirm('确认退出吗?', '再次确认', {
     confirmButtonText: '退出',
     cancelButtonText: '再想想',
   }).then(() => {
-    router.replace('/login');
+    // 退出登录时携带路由参数,方便登录成功后回显页面
+    $router.push({ path: '/login', query: { redirect: $route.path } });
     useUserStore().clearUser();
     ElNotification({
       title: '退出成功',
@@ -40,23 +47,62 @@ const goLogOut = () => {
   });
 };
 const goToLogin = () => {
-  router.replace('/login');
+  $router.push({ path: '/login', query: { redirect: $route.path } });
+};
+
+// 自定义主题颜色
+const color = ref('rgba(255, 69, 0, 0.68)');
+const predefineColors = ref([
+  '#ff4500',
+  '#ff8c00',
+  '#ffd700',
+  '#90ee90',
+  '#00ced1',
+  '#1e90ff',
+  '#c71585',
+  'rgba(255, 69, 0, 0.68)',
+  'rgb(255, 120, 0)',
+  'hsv(51, 100, 98)',
+  'hsva(120, 40, 94, 0.5)',
+  'hsl(181, 100%, 37%)',
+  'hsla(209, 100%, 56%, 0.73)',
+  '#c7158577',
+]);
+// 暗黑模式的切换
+const isMoon = ref(false);
+const html = document.documentElement;
+const changeMoon = () => {
+  isMoon.value ? (html.className = 'dark') : (html.className = '');
 };
 </script>
 <template>
   <el-button :icon="Refresh" circle @click="changeRefsh"></el-button>
   <el-button :icon="FullScreen" circle @click="changeFullScreen"></el-button>
-  <el-button :icon="Setting" circle></el-button>
+  <el-popover class="box-item" title="主题选择" placement="bottom">
+    <el-form>
+      <el-form-item label="选择主题">
+        <el-color-picker v-model="color" show-alpha :predefine="predefineColors" />
+      </el-form-item>
+      <el-form-item label="暗黑模式">
+        <el-switch
+          v-model="isMoon"
+          class="mt-2"
+          inline-prompt
+          active-icon="Moon"
+          inactive-icon="Sunny"
+          @change="changeMoon"
+        />
+      </el-form-item>
+    </el-form>
+    <template #reference> <el-button :icon="Setting" circle></el-button></template>
+  </el-popover>
   <div class="block">
-    <el-avatar
-      :size="33"
-      :src="useUserStore().userInfo?.checkUser?.avatar || '../../../../public/logo.png'"
-    />
+    <el-avatar :size="33" src="../../../../../public/vite.svg" />
   </div>
   <!-- 下拉菜单 -->
   <el-dropdown>
     <span class="el-dropdown-link">
-      {{ useUserStore().userInfo?.checkUser.username || '去登录' }}
+      {{ useUserStore().userInfo?.username || '去登录' }}
       <el-icon class="el-icon--right">
         <arrow-down />
       </el-icon>

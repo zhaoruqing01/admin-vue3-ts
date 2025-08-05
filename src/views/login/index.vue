@@ -1,24 +1,24 @@
 <script lang="ts" setup>
-import { getUserInfo } from '@/api/user/index';
-import router from '@/router';
+import { getUserDetailInfo, getUserInfo } from '@/api/user/index';
 import useUserStore from '@/stores/modules/user';
 import { getTime } from '@/utils/time';
 import { Lock, User } from '@element-plus/icons-vue';
 import { ElNotification } from 'element-plus';
 import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 // 登录表单信息,表单校验
 // 自定义校验规则
 const validatePassword = (rule: any, value: string, callback: any) => {
-  const reg = /^\d+$/;
+  const reg = /^[a-z]+$/;
   if (!reg.test(value)) {
     callback(new Error('密码必须为数字'));
   } else {
     callback(); // 验证通过
   }
 };
-const loginForm = ref({ username: 'admin', password: '111111' });
+const loginForm = ref({ username: '1122qqq', password: 'zzzzzz' });
 const rules = ref({
   username: [
     { required: true, message: '用户名不能为空', trigger: 'change' },
@@ -31,7 +31,18 @@ const rules = ref({
   ],
 });
 const loginFormRef = ref();
-// 发送请求跳转页面
+// 发送请求跳转页面获取用户信息
+const $route = useRoute();
+const $router = useRouter();
+const redirect = $route.query.redirect as string; // 获取路由参数
+// 获取用户详细信息
+const getUserDetailInfoData = async () => {
+  // 当组件挂载后获取用户信息存入store
+  const res = await getUserDetailInfo();
+  console.log(res.data);
+  useUserStore().setUserInfo(res.data);
+};
+
 const isLoading = ref(false);
 const getUserInfoData = async () => {
   try {
@@ -40,15 +51,19 @@ const getUserInfoData = async () => {
     const isValid = await loginFormRef.value.validate();
     if (!isValid) return;
     const res = await getUserInfo(loginForm.value);
-    if (res.code === 200) {
-      userStore.setToken(res.data.token);
-      router.push('/');
+    console.log(res);
+
+    if (res.code === 0) {
+      userStore.setToken(res.token);
+      $router.push(redirect || '/');
       ElNotification({
         title: `Hi,${getTime()}好!`,
         message: '欢迎回来!',
         type: 'success',
       });
       isLoading.value = false;
+      // 登录成功获取用户信息
+      getUserDetailInfoData();
     } else {
       ElNotification({
         title: '登录失败',
